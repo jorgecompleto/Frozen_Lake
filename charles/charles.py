@@ -6,7 +6,7 @@ from operator import attrgetter
 
 #possible play solution - entire
 class Individual:
-    def _init_(
+    def __init__(
         self,
         representation=None,
         size=None,
@@ -31,22 +31,21 @@ class Individual:
     def index(self, value):
         return self.representation.where(value)
 
-    def _len_(self):
+    def __len__(self):
         return len(self.representation)
 
-    def _getitem_(self, position):
+    def __getitem__(self, position):
         return self.representation[position]
 
-    def _setitem_(self, position, value):
+    def __setitem__(self, position, value):
         self.representation[position] = value
 
-    def _repr_(self):
+    def __repr__(self):
         return f"Individual(size={len(self.representation)}); Fitness: {self.fitness}"
 
 
-
 class Population:
-    def _init_(self, size, optim, **kwargs):
+    def __init__(self, size, optim, **kwargs):
         self.individuals = []
         self.size = size
         self.optim = optim
@@ -107,8 +106,8 @@ class Population:
             elif self.optim == "min":
                 print(f'Best Individual: {min(self, key=attrgetter("fitness"))}')
 
-    def _len_(self):
+    def __len__(self):
         return len(self.individuals)
 
-    def _getitem_(self, position):
+    def __getitem__(self, position):
         return self.individuals[position]

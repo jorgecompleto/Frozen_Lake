@@ -5,7 +5,7 @@ import numpy as np
 from charles.charles import Population, Individual
 from charles.crossover import single_point_co, cycle_xo, pmx
 from charles.mutation import binary_mutation, inversion_mutation
-from charles.mutation import tournament_sel, fps
+from charles.selection import tournament_sel, fps
 
 
 def get_fitness(self, n_tries=100):
@@ -61,3 +61,12 @@ pop1.evolve(gens=100, xo_prob=0.9, mut_prob=0, select=tournament_sel, mutate=bin
 #policy_scores_gen1 = [get_fitness(env, p) for p in policies_pop_1]
 #print(policy_scores_gen1)
 #print(max(policy_scores_gen1))
+
+#policies_pop_2 = [single_point_co(i, i+1) for i in policies_pop_1]
+#policy_scores_gen2 = [compare_policy(env, p) for p in policies_pop_2]
+#print(policy_scores_gen2)
+#print(max(policy_scores_gen2))
+#print(policies_pop_1[-1], policies_pop_1[0])
+#print(policies_pop_2[0], policies_pop_2[1])
+
+#policies_pop_1.evolve()
