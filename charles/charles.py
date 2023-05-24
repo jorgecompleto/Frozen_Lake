@@ -1,4 +1,5 @@
 from random import choice, sample, random
+import numpy as np
 from copy import deepcopy
 from operator import attrgetter
 
@@ -12,9 +13,9 @@ class Individual:
         replacement=True,
         valid_set=None,
     ):
-        if representation == None:
+        if np.any(representation) == None:
             if replacement == True:
-                self.representation = [choice(valid_set) for i in range(size)]
+                self.representation = np.array([choice(valid_set) for i in range(size)])
             elif replacement == False:
                 self.representation = sample(valid_set, size)
         else:
@@ -26,6 +27,22 @@ class Individual:
 
     def get_neighbours(self, func, **kwargs):
         raise Exception("You need to monkey patch the neighbourhood function.")
+
+    def index(self, value):
+        return self.representation.where(value)
+
+    def _len_(self):
+        return len(self.representation)
+
+    def _getitem_(self, position):
+        return self.representation[position]
+
+    def _setitem_(self, position, value):
+        self.representation[position] = value
+
+    def _repr_(self):
+        return f"Individual(size={len(self.representation)}); Fitness: {self.fitness}"
+
 
 
 class Population:
