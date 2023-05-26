@@ -14,8 +14,8 @@ def single_point_co(p1, p2):
     """
     co_point = randint(1, len(p1)-2)
 
-    offspring1 = np.concatenate((p1[:co_point], p2[co_point:]))
-    offspring2 = np.concatenate((p2[:co_point], p1[co_point:]))
+    offspring1 = p1[:co_point] + p2[co_point:]
+    offspring2 = p2[:co_point] + p1[co_point:]
 
     return offspring1, offspring2
 
@@ -78,16 +78,9 @@ def pmx(p1,p2):
     offspring1, offspring2 = pmx_off(p1,p2), pmx_off(p2,p1)
     return offspring1, offspring2
 
-def arithmetic_xo(p1,p2):
-    o1 = [None] * len(p1)
-    o2 = [None] * len(p1)
-    alpha = uniform(0,1)
-    for i in range(len(p1)):
-        o1[i] = p1[i]*alpha + (1-alpha)*p2[i]
-        o2[i] = p2[i]*alpha + (1-alpha)*p1[i]
 
 
 if __name__ == '__main__':
-    p1, p2 = np.array([9, 8, 4, 5, 6, 7, 1, 3, 2, 10]), np.array([8, 7, 1, 2, 3, 10, 9, 5, 4, 6])
-    o1, o2 = cycle_xo(p1, p2)
+    p1, p2 = [9, 8, 4, 5, 6, 7, 1, 3, 2, 10], [8, 7, 1, 2, 3, 10, 9, 5, 4, 6]
+    o1, o2 = arithmetic_xo(p1, p2)
     print(o1, o2)

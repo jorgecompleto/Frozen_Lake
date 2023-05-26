@@ -15,7 +15,7 @@ class Individual:
     ):
         if np.any(representation) == None:
             if replacement == True:
-                self.representation = np.array([choice(valid_set) for i in range(size)])
+                self.representation = [choice(valid_set) for i in range(size)]
             elif replacement == False:
                 self.representation = sample(valid_set, size)
         else:
@@ -29,7 +29,7 @@ class Individual:
         raise Exception("You need to monkey patch the neighbourhood function.")
 
     def index(self, value):
-        return self.representation.where(value)
+        return self.representation.index(value)
 
     def __len__(self):
         return len(self.representation)
@@ -41,7 +41,7 @@ class Individual:
         self.representation[position] = value
 
     def __repr__(self):
-        return f"Individual(size={len(self.representation)}); Fitness: {self.fitness}"
+        return f"Individual(size={len(self)}); Fitness: {self.fitness}; Represenation: {self.representation} "
 
 
 class Population:

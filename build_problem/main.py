@@ -4,7 +4,7 @@ import gym
 import numpy as np
 from charles.charles import Population, Individual
 from charles.crossover import single_point_co, cycle_xo, pmx
-from charles.mutation import binary_mutation, inversion_mutation
+from charles.mutation import binary_mutation, swap_mutation, inversion_mutation
 from charles.selection import tournament_sel, fps
 
 
@@ -29,7 +29,7 @@ def run_episode(env, policy):
     obs = env.reset()
     terminated = False
     truncated = False
-    action = policy
+    action = np.array(policy)
     steps = 0
     for i in action:
         obs, reward, terminated, truncated, info = env.step(i)
@@ -54,19 +54,4 @@ Individual.get_fitness = get_fitness
 pop1 = Population(sol_size=16, size=50, replacement=True, valid_set=[0, 1, 2, 3], optim="max") #pop size igual a 50
 print(pop1[0].representation)
 
-pop1.evolve(gens=100, xo_prob=0.9, mut_prob=0, select=tournament_sel, mutate=binary_mutation, crossover=single_point_co, elitism=True)
-#print(pop1[0].representation)
-#policies_pop_1 = [gen_random_policy() for _ in range(20)]
-#print(policies_pop_1)
-#policy_scores_gen1 = [get_fitness(env, p) for p in policies_pop_1]
-#print(policy_scores_gen1)
-#print(max(policy_scores_gen1))
-
-#policies_pop_2 = [single_point_co(i, i+1) for i in policies_pop_1]
-#policy_scores_gen2 = [compare_policy(env, p) for p in policies_pop_2]
-#print(policy_scores_gen2)
-#print(max(policy_scores_gen2))
-#print(policies_pop_1[-1], policies_pop_1[0])
-#print(policies_pop_2[0], policies_pop_2[1])
-
-#policies_pop_1.evolve()
+pop1.evolve(gens=10, xo_prob=0.8, mut_prob=0.2, select=fps, mutate=inversion_mutation, crossover=single_point_co, elitism=True)
