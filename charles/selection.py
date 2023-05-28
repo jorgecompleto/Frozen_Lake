@@ -1,5 +1,6 @@
 from random import uniform, choice, sample, random
 from operator import attrgetter
+import numpy as np
 
 
 def fps(population):
@@ -62,16 +63,16 @@ def rank_selection(population):
         population (Population): The population we want to select from.
 
     Returns:
-        Individual: selected individual.
+        list: List of selected individuals.
     """
     pop_size = len(population)
-    ranked_pop = sorted(population, key=attrgetter("fitness"))
-    fitness_sum = sum(i for i in range(1, pop_size+1))
-    probabilities = [i/fitness_sum for i in range(1, pop_size+1)]
+    ranked_pop = sorted(population, key=lambda x: attrgetter("fitness")(x))
+    fitness_sum = sum(i for i in range(1, pop_size + 1))
+    probabilities = [i / fitness_sum for i in range(1, pop_size + 1)]
     selected = []
 
     while len(selected) < pop_size:
-        r = random()
+        r = np.random.random()
         for i, prob in enumerate(probabilities):
             if r <= prob:
                 selected.append(ranked_pop[i])
