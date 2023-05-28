@@ -79,6 +79,19 @@ def pmx(p1,p2):
     return offspring1, offspring2
 
 
+def prob_xo(p1, p2):
+    offspring1 = [None] * len(p1)
+    offspring2 = [None] * len(p1)
+    for i in range(len(offspring1)):
+        prob = np.random.uniform()
+        if prob < 0.5:
+            offspring1[i] = p1[i]
+            offspring2[i] = p2[i]
+        else:
+            offspring1[i] = p2[i]
+            offspring2[i] = p1[i]
+    return offspring1, offspring2
+
 
 if __name__ == '__main__':
     p1, p2 = [9, 8, 4, 5, 6, 7, 1, 3, 2, 10], [8, 7, 1, 2, 3, 10, 9, 5, 4, 6]
