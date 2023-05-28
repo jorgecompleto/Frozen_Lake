@@ -1,3 +1,4 @@
+import random
 from random import randint, sample
 
 
@@ -34,6 +35,11 @@ def inversion_mutation(individual):
     mut_indexes = sample(range(0, len(individual)), 2)
     mut_indexes.sort()
     individual[mut_indexes[0]:mut_indexes[1]] = individual[mut_indexes[0]:mut_indexes[1]][::-1]
+    return individual
+
+def scramble_mutation(individual):
+    sequence = list(individual)
+    individual = random.sample(sequence, len(individual))
     return individual
 
 

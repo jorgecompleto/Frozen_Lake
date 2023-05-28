@@ -1,6 +1,6 @@
 from random import choice, sample, random
 import numpy as np
-from copy import deepcopy
+from copy import deepcopy, copy
 from operator import attrgetter
 
 
@@ -13,7 +13,7 @@ class Individual:
         replacement=True,
         valid_set=None,
     ):
-        if np.any(representation) == None:
+        if representation == None:
             if replacement == True:
                 self.representation = [choice(valid_set) for i in range(size)]
             elif replacement == False:
@@ -41,7 +41,7 @@ class Individual:
         self.representation[position] = value
 
     def __repr__(self):
-        return f"Individual(size={len(self)}); Fitness: {self.fitness}; Represenation: {self.representation} "
+        return f"Individual(size={len(self)}); Fitness: {self.fitness}; Representation: {self.representation}"
 
 
 class Population:
@@ -105,6 +105,7 @@ class Population:
                 print(f'Best Individual: {max(self, key=attrgetter("fitness"))}')
             elif self.optim == "min":
                 print(f'Best Individual: {min(self, key=attrgetter("fitness"))}')
+        return elite.fitness
 
     def __len__(self):
         return len(self.individuals)

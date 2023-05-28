@@ -3,9 +3,10 @@
 import gym
 import numpy as np
 from charles.charles import Population, Individual
-from charles.crossover import single_point_co, cycle_xo, pmx
-from charles.mutation import binary_mutation, swap_mutation, inversion_mutation
-from charles.selection import tournament_sel, fps
+from charles.crossover import single_point_co, cycle_xo, prob_xo, pmx
+from charles.mutation import binary_mutation, swap_mutation, inversion_mutation, scramble_mutation
+from charles.selection import tournament_sel, fps, rank_selection
+#import seaborn as sns
 
 
 def get_fitness(self, n_tries=100):
@@ -49,9 +50,19 @@ Individual.get_fitness = get_fitness
 
 ###################
 
-#ind1 = Individual(size=16, replacement=True, valid_set=[0,1,2,3])
-#print(ind1.representation)
-pop1 = Population(sol_size=16, size=50, replacement=True, valid_set=[0, 1, 2, 3], optim="max") #pop size igual a 50
-print(pop1[0].representation)
 
-pop1.evolve(gens=10, xo_prob=0.8, mut_prob=0.2, select=fps, mutate=inversion_mutation, crossover=single_point_co, elitism=True)
+
+def compare_fitness(times, gens, xo_prob, mut_prob, select, mutate, crossover, elitism= True):
+    average_fitness = 0
+    for i in range(times):
+        pop= Population(sol_size=16, size=50, replacement=True, valid_set=[0, 1, 2, 3],
+                          optim="max")  # pop size igual a 50
+        best_fitness = pop.evolve(gens=gens, xo_prob=xo_prob, mut_prob=mut_prob, select=select, mutate=mutate, crossover=crossover, elitism=elitism)
+        average_fitness += best_fitness
+    return average_fitness / times
+
+
+combination1 = compare_fitness(times=10, gens=50, xo_prob=0.8, mut_prob=0.2, select=tournament_sel, mutate=scramble_mutation, crossover=prob_xo, elitism=True)
+combination2 = compare_fitness(times=10, gens=75, xo_prob=0.8, mut_prob=0.2, select=tournament_sel, mutate=scramble_mutation, crossover=prob_xo, elitism=True)
+combination3 = compare_fitness(times=10, gens=100, xo_prob=0.8, mut_prob=0.2, select=tournament_sel, mutate=scramble_mutation, crossover=prob_xo, elitism=True)
+print(combination1, combination2, combination3)
